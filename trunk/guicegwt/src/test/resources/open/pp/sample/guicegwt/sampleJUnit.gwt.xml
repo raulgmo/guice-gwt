@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<module>
-  <!-- Inherit our applications main module.                      -->
-  <inherits name='open.pp.sample.guicegwt.sample' />
-
-  <!-- Specify the path to any remote services.                   -->
-  <servlet path="/sample/greet" class="open.pp.sample.guicegwt.server.GreetingServiceImpl" />
-
-</module>

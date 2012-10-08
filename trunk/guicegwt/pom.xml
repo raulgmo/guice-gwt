@@ -50,6 +50,49 @@
 			<classifier>sources</classifier>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.13</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>2.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-persist</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.agnie.gwt</groupId>
+			<artifactId>mvn-helper-lib</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -81,7 +124,66 @@
 					<i18nMessagesBundle>open.pp.sample.guicegwt.client.Messages</i18nMessagesBundle>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.agnie.gwt</groupId>
+				<artifactId>mvn-helper-plugin</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>requestFactory</goal>
+						</goals>
+						<configuration>
+							<targetProxyPackage>open.pp.sample.guicegwt.server.shared.proxy</targetProxyPackage>
+							<targetServicePackage>open.pp.sample.guicegwt.server.shared.service</targetServicePackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<version>2.0.5</version>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.google.web.bindery</groupId>
+						<artifactId>requestfactory-apt</artifactId>
+						<version>${gwtVersion}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 
+			<!-- Google Plugin for Eclipse (GPE) won't see the source generated above 
+				by requestfactory-apt unless it is exposed as an additional source dir -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/apt</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- Copy static web files before executing gwt:run -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -104,11 +206,16 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
+	<repositories>
+		<repository>
+			<id>EclipseLink</id>
+			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
+		</repository>
+	</repositories>
 </project>
