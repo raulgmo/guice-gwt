@@ -3,6 +3,8 @@
  */
 package open.pp.sample.guicegwt.server.injector;
 
+import open.pp.sample.guicegwt.server.dao.AccountDao;
+
 import com.google.inject.PrivateModule;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
@@ -19,10 +21,8 @@ public class AccountPersistModule extends PrivateModule {
 				AccountPersistenceLifeCycleManager.class);
 		expose(PersistenceLifeCycleManager.class).annotatedWith(
 				AccountPersistService.class);
-		// bind(UserAuthSessionManager.class).to(UserAuthSessionManagerImpl.class);
-		// expose(UserAuthSessionManager.class);
-		// bind(UserSessionDao.class).asEagerSingleton();
-		// expose(UserSessionDao.class);
+		bind(AccountDao.class).asEagerSingleton();
+		expose(AccountDao.class);
 	}
 
 }

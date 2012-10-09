@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 
 @RunWith(GuiceTestRunner.class)
@@ -25,13 +24,11 @@ public class PersonTest {
 	@Inject
 	protected Injector injector;
 	@Inject
-	protected Provider<EntityManager> em;
-	@Inject
 	@UserPersistService
 	protected PersistenceLifeCycleManager manager;
 
 	public EntityManager getEntityManager() {
-		return em.get();
+		return manager.getEntityManager();
 	}
 
 	@Before
@@ -50,8 +47,9 @@ public class PersonTest {
 		try {
 			Person uas = new Person();
 			uas.setId(java.util.UUID.randomUUID().toString());
-			uas.setName("Pandurang Patil");
-			uas.setDescription("Some description");
+			uas.setFname("Pandurang");
+			uas.setLname("Patil");
+			uas.setEmailId("pandurang@gmail.com");
 			getEntityManager().persist(uas);
 			Assert.assertTrue(true);
 		} catch (Exception e) {
@@ -66,8 +64,9 @@ public class PersonTest {
 		try {
 			Person uas = new Person();
 			uas.setId(java.util.UUID.randomUUID().toString());
-			uas.setName("Pandurang Patil");
-			uas.setDescription("Some description");
+			uas.setFname("Pandurang");
+			uas.setLname("Patil");
+			uas.setEmailId("pandurang@gmail.com");
 			getEntityManager().persist(uas);
 			Person uas1 = getEntityManager().find(Person.class, uas.getId());
 			Assert.assertEquals(uas, uas1);
