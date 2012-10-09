@@ -10,8 +10,7 @@ import com.google.inject.servlet.GuiceServletContextListener;
 /**
  *
  */
-public abstract class SampleServletContextListner extends
-		GuiceServletContextListener {
+public class SampleServletContextListner extends GuiceServletContextListener {
 
 	@Override
 	protected Injector getInjector() {

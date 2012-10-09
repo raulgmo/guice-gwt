@@ -2,13 +2,18 @@ package open.pp.sample.guicegwt.server.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import com.agnie.gwt.helper.requestfactory.marker.RFEntityProxy;
 import com.agnie.gwt.helper.requestfactory.marker.RFProxyMethod;
+import com.agnie.gwt.helper.requestfactory.marker.RFServiceMethod;
+import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 
 /**
  * 
@@ -20,6 +25,10 @@ import com.agnie.gwt.helper.requestfactory.marker.RFProxyMethod;
 		@NamedQuery(name = "Person.getAll", query = "select p from Person p") })
 @RFEntityProxy
 public class Person extends UserBase {
+
+	@Inject
+	@Transient
+	private EntityManager em;
 
 	@Id
 	private String id;
@@ -159,6 +168,15 @@ public class Person extends UserBase {
 	@RFProxyMethod
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
+	}
+
+	@RFServiceMethod
+	@Transactional
+	public void persist() {
+		if (this.id == null) {
+			this.id = java.util.UUID.randomUUID().toString();
+		}
+		em.persist(this);
 	}
 
 	/*
