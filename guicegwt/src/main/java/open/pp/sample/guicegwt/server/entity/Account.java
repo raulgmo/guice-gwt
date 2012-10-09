@@ -2,15 +2,20 @@ package open.pp.sample.guicegwt.server.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import open.pp.sample.guicegwt.client.InsufficientFundException;
 
 import com.agnie.gwt.helper.requestfactory.marker.RFEntityProxy;
 import com.agnie.gwt.helper.requestfactory.marker.RFProxyMethod;
+import com.agnie.gwt.helper.requestfactory.marker.RFServiceMethod;
+import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 
 /**
  * 
@@ -20,6 +25,10 @@ import com.agnie.gwt.helper.requestfactory.marker.RFProxyMethod;
 @NamedQueries({ @NamedQuery(name = "Account.getByPersonId", query = "select a from Account a where a.personId = :personId") })
 @RFEntityProxy
 public class Account extends AccountBase {
+
+	@Inject
+	@Transient
+	private EntityManager em;
 
 	@Id
 	private String id;
@@ -157,6 +166,12 @@ public class Account extends AccountBase {
 			throw new InsufficientFundException();
 		}
 		this.balance -= amount;
+	}
+
+	@RFServiceMethod
+	@Transactional
+	public void persist() {
+		em.persist(this);
 	}
 
 	@Override

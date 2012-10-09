@@ -5,6 +5,7 @@ package open.pp.sample.guicegwt.server.requestfactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import com.google.web.bindery.requestfactory.server.DefaultExceptionHandler;
 import com.google.web.bindery.requestfactory.server.ExceptionHandler;
 import com.google.web.bindery.requestfactory.server.RequestFactoryServlet;
@@ -13,6 +14,7 @@ import com.google.web.bindery.requestfactory.server.ServiceLayerDecorator;
 /**
  *
  */
+@Singleton
 public class SampleRequestFactoryServlet extends RequestFactoryServlet {
 	/**
 	 * 

@@ -32,6 +32,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.google.web.bindery</groupId>
+			<artifactId>requestfactory-server</artifactId>
+			<version>${gwtVersion}</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
@@ -41,14 +46,6 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-			<classifier>sources</classifier>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -98,7 +95,6 @@
 	<build>
 		<!-- Generate compiled stuff in the folder used for developing mode -->
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
-
 		<plugins>
 
 			<!-- GWT Maven Plugin -->
@@ -123,23 +119,6 @@
 					<hostedWebapp>${webappDirectory}</hostedWebapp>
 					<i18nMessagesBundle>open.pp.sample.guicegwt.client.Messages</i18nMessagesBundle>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.agnie.gwt</groupId>
-				<artifactId>mvn-helper-plugin</artifactId>
-				<version>1.0-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>requestFactory</goal>
-						</goals>
-						<configuration>
-							<targetProxyPackage>open.pp.sample.guicegwt.server.shared.proxy</targetProxyPackage>
-							<targetServicePackage>open.pp.sample.guicegwt.server.shared.service</targetServicePackage>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.bsc.maven</groupId>
