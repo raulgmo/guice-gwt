@@ -3,15 +3,15 @@ package open.pp.sample.guicegwt.server.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import open.pp.sample.guicegwt.server.entity.Person;
+import open.pp.sample.guicegwt.server.injector.PersistenceLifeCycleManager;
+import open.pp.sample.guicegwt.server.injector.UserPersistService;
 
 import org.apache.log4j.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 
 public class PersonDao {
@@ -19,24 +19,25 @@ public class PersonDao {
 			.getLogger(PersonDao.class);
 
 	@Inject
-	private Provider<EntityManager> em;
+	@UserPersistService
+	PersistenceLifeCycleManager manager;
 
 	@Transactional
 	public boolean savePerson(Person p) {
-		em.get().persist(p);
+		manager.getEntityManager().persist(p);
 		return true;
 	}
 
 	@Transactional
 	public boolean mergePerson(Person p) {
-		em.get().merge(p);
+		manager.getEntityManager().merge(p);
 		return true;
 	}
 
 	@Transactional
 	public List<Person> getAllPersons() {
 		List<Person> list = null;
-		TypedQuery<Person> qry = em.get().createNamedQuery("Person.getAll",
+		TypedQuery<Person> qry = manager.getEntityManager().createNamedQuery("Person.getAll",
 				Person.class);
 		if (qry != null) {
 			list = qry.getResultList();
@@ -46,7 +47,7 @@ public class PersonDao {
 
 	@Transactional
 	public Person getPersonById(String id) {
-		return em.get().find(Person.class, id);
+		return manager.getEntityManager().find(Person.class, id);
 	}
 
 	@Transactional
@@ -54,7 +55,7 @@ public class PersonDao {
 		List<Person> list = new ArrayList<Person>();
 		Person p = null;
 		if (emailId != null && !("".equals(emailId))) {
-			TypedQuery<Person> qry = em.get().createNamedQuery(
+			TypedQuery<Person> qry = manager.getEntityManager().createNamedQuery(
 					"Person.getByEmailId", Person.class);
 			qry.setParameter("emailId", emailId);
 
@@ -75,7 +76,7 @@ public class PersonDao {
 	@Transactional
 	public boolean removePerson(String id) {
 		Person p = getPersonById(id);
-		em.get().remove(p);
+		manager.getEntityManager().remove(p);
 		return true;
 	}
 }

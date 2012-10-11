@@ -19,7 +19,16 @@ public class AccountEntityLocator extends Locator<AccountBase, String> {
 
 	@Override
 	public AccountBase create(Class<? extends AccountBase> clazz) {
-		return injector.getInstance(clazz);
+		try {
+			return clazz.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
