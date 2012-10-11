@@ -2,18 +2,10 @@ package open.pp.sample.guicegwt.server.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
 import javax.persistence.Version;
-
-import com.agnie.gwt.helper.requestfactory.marker.RFEntityProxy;
-import com.agnie.gwt.helper.requestfactory.marker.RFProxyMethod;
-import com.agnie.gwt.helper.requestfactory.marker.RFServiceMethod;
-import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
 
 /**
  * 
@@ -23,12 +15,7 @@ import com.google.inject.persist.Transactional;
 @NamedQueries({
 		@NamedQuery(name = "Person.getByEmailId", query = "select p from Person p where p.emailId = :emailId"),
 		@NamedQuery(name = "Person.getAll", query = "select p from Person p") })
-@RFEntityProxy
 public class Person extends UserBase {
-
-	@Inject
-	@Transient
-	private EntityManager em;
 
 	@Id
 	private String id;
@@ -74,7 +61,6 @@ public class Person extends UserBase {
 	/**
 	 * @return the id
 	 */
-	@RFProxyMethod
 	public String getId() {
 		return id;
 	}
@@ -105,7 +91,6 @@ public class Person extends UserBase {
 	/**
 	 * @return the title
 	 */
-	@RFProxyMethod
 	public String getTitle() {
 		return title;
 	}
@@ -114,7 +99,6 @@ public class Person extends UserBase {
 	 * @param title
 	 *            the title to set
 	 */
-	@RFProxyMethod
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -122,7 +106,6 @@ public class Person extends UserBase {
 	/**
 	 * @return the fname
 	 */
-	@RFProxyMethod
 	public String getFname() {
 		return fname;
 	}
@@ -131,7 +114,6 @@ public class Person extends UserBase {
 	 * @param fname
 	 *            the fname to set
 	 */
-	@RFProxyMethod
 	public void setFname(String fname) {
 		this.fname = fname;
 	}
@@ -139,7 +121,6 @@ public class Person extends UserBase {
 	/**
 	 * @return the lname
 	 */
-	@RFProxyMethod
 	public String getLname() {
 		return lname;
 	}
@@ -148,7 +129,6 @@ public class Person extends UserBase {
 	 * @param lname
 	 *            the lname to set
 	 */
-	@RFProxyMethod
 	public void setLname(String lname) {
 		this.lname = lname;
 	}
@@ -156,7 +136,6 @@ public class Person extends UserBase {
 	/**
 	 * @return the emailId
 	 */
-	@RFProxyMethod
 	public String getEmailId() {
 		return emailId;
 	}
@@ -165,18 +144,8 @@ public class Person extends UserBase {
 	 * @param emailId
 	 *            the emailId to set
 	 */
-	@RFProxyMethod
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
-	}
-
-	@RFServiceMethod
-	@Transactional
-	public void persist() {
-		if (this.id == null) {
-			this.id = java.util.UUID.randomUUID().toString();
-		}
-		em.persist(this);
 	}
 
 	/*

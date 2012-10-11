@@ -14,12 +14,22 @@ public class UserEntityLocator extends Locator<UserBase, String> {
 
 	@Inject
 	Injector injector;
+	@Inject
 	@UserPersistService
 	PersistenceLifeCycleManager manager;
 
 	@Override
 	public UserBase create(Class<? extends UserBase> clazz) {
-		return injector.getInstance(clazz);
+		try {
+			return clazz.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
