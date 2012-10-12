@@ -1,0 +1,55 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:style>
+		.address-panel {
+			clear: both;
+			background: gray;
+			border-radius: 3px;
+			padding: 5px;
+			margin-top: 5px;
+			height: 165px;
+		}
+	</ui:style>
+	<g:HTMLPanel addStyleNames='{style.address-panel}'>
+		<div style="float:left; ">
+			<div>
+				Address 1:
+				</div>
+			<div>
+				<g:TextBox ui:field="add1" width="150px"></g:TextBox>
+			</div>
+		</div>
+		<div style="float:left; margin-left: 40px;">
+			<div>
+				Address 2:
+				</div>
+			<div>
+				<g:TextBox ui:field="add2" width="150px"></g:TextBox>
+			</div>
+		</div>
+		<div style="float:left; margin-top: 20px;">
+			<div>
+				City:
+				</div>
+			<div>
+				<g:TextBox ui:field="city" width="150px"></g:TextBox>
+			</div>
+		</div>
+		<div style="float:left; margin-left: 40px; margin-top: 20px;">
+			<span>
+				State:
+				</span>
+			<div>
+				<g:TextBox ui:field="state" width="150px"></g:TextBox>
+			</div>
+		</div>
+		<div style="float:left; margin-top: 20px;">
+			<span>
+				Country:
+				</span>
+			<div>
+				<g:TextBox ui:field="country" width="150px"></g:TextBox>
+			</div>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>
