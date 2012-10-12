@@ -9,7 +9,7 @@ import com.google.inject.persist.PersistService;
 import com.google.inject.persist.UnitOfWork;
 
 @Singleton
-public class AccountPersistenceLifeCycleManager implements
+public class AddressPersistenceLifeCycleManager implements
 		PersistenceLifeCycleManager {
 
 	private final UnitOfWork unitOfWork;
@@ -17,7 +17,7 @@ public class AccountPersistenceLifeCycleManager implements
 	private final Provider<EntityManager> entityManager;
 
 	@Inject
-	public AccountPersistenceLifeCycleManager(UnitOfWork unitOfWork,
+	public AddressPersistenceLifeCycleManager(UnitOfWork unitOfWork,
 			PersistService persistService, Provider<EntityManager> entityManager) {
 		this.unitOfWork = unitOfWork;
 		this.persistService = persistService;

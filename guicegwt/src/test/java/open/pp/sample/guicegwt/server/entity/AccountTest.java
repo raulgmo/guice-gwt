@@ -3,10 +3,10 @@ package open.pp.sample.guicegwt.server.entity;
 import javax.persistence.EntityManager;
 
 import junit.framework.Assert;
-import open.pp.sample.guicegwt.server.injector.AccountPersistService;
+import open.pp.sample.guicegwt.server.injector.AddressPersistService;
 import open.pp.sample.guicegwt.server.injector.GuiceTestRunner;
 import open.pp.sample.guicegwt.server.injector.PersistenceLifeCycleManager;
-import open.pp.sample.guicegwt.server.injector.TestAccountPersistModule;
+import open.pp.sample.guicegwt.server.injector.TestAddressPersistModule;
 import open.pp.sample.guicegwt.server.injector.WithModules;
 
 import org.junit.After;
@@ -19,12 +19,12 @@ import com.google.inject.Injector;
 import com.google.inject.persist.Transactional;
 
 @RunWith(GuiceTestRunner.class)
-@WithModules({ TestAccountPersistModule.class })
+@WithModules({ TestAddressPersistModule.class })
 public class AccountTest {
 	@Inject
 	protected Injector injector;
 	@Inject
-	@AccountPersistService
+	@AddressPersistService
 	protected PersistenceLifeCycleManager manager;
 
 	public EntityManager getEntityManager() {
@@ -45,10 +45,9 @@ public class AccountTest {
 	@Transactional
 	public void create() {
 		try {
-			Account uas = new Account();
+			Address uas = new Address();
 			uas.setId(java.util.UUID.randomUUID().toString());
-			uas.setName("Pandurang Patil");
-			uas.setDescription("Some description");
+			uas.setCity("Mumbai");
 			getEntityManager().persist(uas);
 			Assert.assertTrue(true);
 		} catch (Exception e) {
@@ -61,12 +60,11 @@ public class AccountTest {
 	@Transactional
 	public void find() {
 		try {
-			Account uas = new Account();
+			Address uas = new Address();
 			uas.setId(java.util.UUID.randomUUID().toString());
-			uas.setName("Pandurang Patil");
-			uas.setDescription("Some description");
+			uas.setCity("Mumbai");
 			getEntityManager().persist(uas);
-			Account uas1 = getEntityManager().find(Account.class, uas.getId());
+			Address uas1 = getEntityManager().find(Address.class, uas.getId());
 			Assert.assertEquals(uas, uas1);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,0 +1,23 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:with field='person' type="open.pp.sample.guicegwt.shared.proxy.PersonPx" />
+	<g:HTMLPanel>
+		<div>
+			<span>
+				<ui:text from='{person.getTitle}' />
+			</span>
+			<span>
+				<ui:text from='{person.getFname}' />
+			</span>
+			<span>
+				<ui:text from='{person.getLname}' />
+			</span>
+		</div>
+		<div>
+			<span>
+				Email Id:
+				<ui:text from='{person.getEmailId}' />
+			</span>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>

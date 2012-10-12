@@ -3,7 +3,7 @@
  */
 package open.pp.sample.guicegwt.server.injector;
 
-import open.pp.sample.guicegwt.server.dao.AccountDao;
+import open.pp.sample.guicegwt.server.dao.AddressDao;
 
 import com.google.inject.PrivateModule;
 import com.google.inject.persist.jpa.JpaPersistModule;
@@ -11,18 +11,18 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 /**
  * Private Persistent Module to connect with Accounts unit.
  */
-public class AccountPersistModule extends PrivateModule {
+public class AddressPersistModule extends PrivateModule {
 
 	@Override
 	protected void configure() {
-		install(new JpaPersistModule("accounts"));
+		install(new JpaPersistModule("addresses"));
 		bind(PersistenceLifeCycleManager.class).annotatedWith(
-				AccountPersistService.class).to(
-				AccountPersistenceLifeCycleManager.class);
+				AddressPersistService.class).to(
+				AddressPersistenceLifeCycleManager.class);
 		expose(PersistenceLifeCycleManager.class).annotatedWith(
-				AccountPersistService.class);
-		bind(AccountDao.class).asEagerSingleton();
-		expose(AccountDao.class);
+				AddressPersistService.class);
+		bind(AddressDao.class).asEagerSingleton();
+		expose(AddressDao.class);
 	}
 
 }

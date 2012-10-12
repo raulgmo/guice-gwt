@@ -17,7 +17,7 @@ public class SampleServletModule extends ServletModule {
 	@Override
 	protected void configureServlets() {
 		filter("/*").through(UserPersistFilter.class);
-		filter("/*").through(AccountPersistFilter.class);
+		filter("/*").through(AddressPersistFilter.class);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("symbolMapsDirectory", "WEB-INF/classes/symbolMaps/");
 		serve("/gwtRequest").with(SampleRequestFactoryServlet.class, params);

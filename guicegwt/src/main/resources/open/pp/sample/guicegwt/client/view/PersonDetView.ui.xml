@@ -1,0 +1,50 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<g:HTMLPanel addStyleNames="table-row-container clearfix">
+		<div>
+			<div style="float:left; ">
+				<div>
+					Title:
+				</div>
+				<div>
+					<g:TextBox ui:field="title" width="100px"></g:TextBox>
+				</div>
+			</div>
+			<div style="float:left; margin-left: 100px;">
+				<div>
+					First Name:
+				</div>
+				<div>
+					<g:TextBox ui:field="fname" width="150px"></g:TextBox>
+				</div>
+			</div>
+			<div style="float:left; margin-top: 20px;">
+				<div>
+					Last Name:
+				</div>
+				<div>
+					<g:TextBox ui:field="lname" width="150px"></g:TextBox>
+				</div>
+			</div>
+			<div style="float:left; margin-left: 50px; margin-top: 20px;">
+				<span>
+					Email Id:
+				</span>
+				<div>
+					<g:TextBox ui:field="emailId" width="150px"></g:TextBox>
+				</div>
+			</div>
+		</div>
+
+		<g:HTMLPanel ui:field="addresses" addStyleNames="clearfix">
+			<div
+				style="clear: both;background-color: black;height: 2px;"></div>
+		</g:HTMLPanel>
+		<div
+			style="  float: left;height: 60px;width: 180px;margin-top: 20px;">
+			<g:Button ui:field="addAddress" text='Add Address'></g:Button>
+			<g:Button ui:field="save" text='Save'></g:Button>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>
