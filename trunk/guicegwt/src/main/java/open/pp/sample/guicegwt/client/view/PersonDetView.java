@@ -1,5 +1,6 @@
 package open.pp.sample.guicegwt.client.view;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +47,9 @@ public class PersonDetView extends Composite {
 	HTMLPanel container;
 	PersonPx p;
 
-	Set<AddressDetView> addViews = new HashSet<AddressDetView>();
+	List<AddressDetView> addViews = new ArrayList<AddressDetView>();
+	Set<DataChangeHandler> dcHanlders = new HashSet<PersonDetView.DataChangeHandler>();
+	List<AddressPx> addressdtos = new ArrayList<AddressPx>();
 
 	public PersonDetView() {
 
@@ -56,23 +59,86 @@ public class PersonDetView extends Composite {
 
 	@UiHandler("save")
 	public void saveHandler(ClickEvent event) {
-
-	}
-
-	public PersonPx getNewMemberUnitDet() {
 		if (p == null) {
 			PersonServiceRequest psr = ServiceFactory.getInstance()
 					.getRequestFactory().getPersonService();
-			p = psr.create(PersonPx.class);
+			PersonPx per = fillPersonDet(psr.create(PersonPx.class));
+			psr.registerPerson(per).fire(new Receiver<String>() {
+
+				@Override
+				public void onSuccess(String response) {
+					if (response != null) {
+						saveAddresses(response);
+						clear();
+					}
+				}
+			});
+		} else {
+			PersonServiceRequest psr = ServiceFactory.getInstance()
+					.getRequestFactory().getPersonService();
+			PersonPx peredit = psr.edit(p);
+			final PersonPx per = fillPersonDet(peredit);
+			psr.savePerson(per).fire(new Receiver<Boolean>() {
+
+				@Override
+				public void onSuccess(Boolean response) {
+					if (response != null && response) {
+						saveAddresses(per.getId());
+						clear();
+					}
+				}
+			});
 		}
-		p.setTitle(this.title.getText());
-		p.setFname(this.fname.getText());
-		p.setLname(this.lname.getText());
-		p.setEmailId(this.emailId.getText());
-		return p;
 	}
 
-	public void setPersonDetails(PersonPx person) {
+	private void saveAddresses(String personId) {
+		List<AddressPx> adds = new ArrayList<AddressPx>();
+		PersonServiceRequest psr = ServiceFactory.getInstance()
+				.getRequestFactory().getPersonService();
+		for (int index = 0; index < addViews.size(); index++) {
+			AddressPx address = addressdtos.get(index);
+			if (address == null) {
+				address = psr.create(AddressPx.class);
+			} else {
+				address = psr.edit(address);
+			}
+			adds.add(addViews.get(index).fillAddress(address));
+		}
+		if (adds.size() > 0) {
+			psr.saveAddresss(personId, adds).fire(new Receiver<Boolean>() {
+
+				@Override
+				public void onSuccess(Boolean response) {
+					if (response) {
+						for (DataChangeHandler handler : dcHanlders) {
+							handler.onDataChange();
+						}
+					}
+				}
+			});
+		}
+	}
+
+	public PersonPx fillPersonDet(PersonPx pr) {
+		pr.setTitle(this.title.getText());
+		pr.setFname(this.fname.getText());
+		pr.setLname(this.lname.getText());
+		pr.setEmailId(this.emailId.getText());
+		return pr;
+	}
+
+	public void clear() {
+		this.title.setText("");
+		this.fname.setText("");
+		this.lname.setText("");
+		this.emailId.setText("");
+		addresses.clear();
+		addViews.clear();
+		addressdtos = new ArrayList<AddressPx>();
+		p = null;
+	}
+
+	public void setPersonDet(PersonPx person) {
 		p = person;
 		this.title.setText(p.getTitle());
 		this.fname.setText(p.getFname());
@@ -80,7 +146,6 @@ public class PersonDetView extends Composite {
 		this.emailId.setText(p.getEmailId());
 		addresses.clear();
 		addViews.clear();
-
 		PersonServiceRequest psr = ServiceFactory.getInstance()
 				.getRequestFactory().getPersonService();
 		psr.getAllAddressesOfAPerson(p.getId()).fire(
@@ -89,6 +154,7 @@ public class PersonDetView extends Composite {
 					@Override
 					public void onSuccess(List<AddressPx> response) {
 						if (response != null && response.size() > 0) {
+							addressdtos = response;
 							for (AddressPx addressPx : response) {
 								AddressDetView adv = new AddressDetView();
 								addViews.add(adv);
@@ -105,6 +171,17 @@ public class PersonDetView extends Composite {
 		AddressDetView adv = new AddressDetView();
 		addViews.add(adv);
 		addresses.add(adv);
+		/*
+		 * This is scope for improvement need to think
+		 */
+		addressdtos.add(null);
 	}
 
+	public void addDataChangeHandler(DataChangeHandler handler) {
+		this.dcHanlders.add(handler);
+	}
+
+	public static interface DataChangeHandler {
+		void onDataChange();
+	}
 }

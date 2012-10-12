@@ -1,8 +1,6 @@
 package open.pp.sample.guicegwt.client.view;
 
-import open.pp.sample.guicegwt.client.ServiceFactory;
 import open.pp.sample.guicegwt.shared.proxy.AddressPx;
-import open.pp.sample.guicegwt.shared.service.PersonServiceRequest;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -30,7 +28,6 @@ public class AddressDetView extends Composite {
 	TextBox country;
 
 	HTMLPanel container;
-	AddressPx add;
 
 	public AddressDetView() {
 
@@ -38,27 +35,26 @@ public class AddressDetView extends Composite {
 		initWidget(container);
 	}
 
-	public AddressPx getAddress() {
-		if (add == null) {
-			PersonServiceRequest psr = ServiceFactory.getInstance()
-					.getRequestFactory().getPersonService();
-			add = psr.create(AddressPx.class);
+	public AddressPx fillAddress(AddressPx address) {
+		if (address != null) {
+			address.setAdd1(this.add1.getText());
+			address.setAdd2(this.add2.getText());
+			address.setCity(this.city.getText());
+			address.setState(this.state.getText());
+			address.setCountry(this.country.getText());
+			return address;
 		}
-		add.setAdd1(this.add1.getText());
-		add.setAdd2(this.add2.getText());
-		add.setCity(this.city.getText());
-		add.setState(this.state.getText());
-		add.setCountry(this.country.getText());
-		return add;
+		return null;
 	}
 
 	public void setAddressDetails(AddressPx person) {
-		add = person;
-		this.add1.setText(add.getAdd1());
-		this.add2.setText(add.getAdd2());
-		this.city.setText(add.getCity());
-		this.state.setText(add.getState());
-		this.country.setText(add.getCountry());
+		if (person != null) {
+			this.add1.setText(person.getAdd1());
+			this.add2.setText(person.getAdd2());
+			this.city.setText(person.getCity());
+			this.state.setText(person.getState());
+			this.country.setText(person.getCountry());
+		}
 	}
 
 }

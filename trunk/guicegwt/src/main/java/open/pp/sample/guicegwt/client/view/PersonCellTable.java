@@ -60,7 +60,7 @@ public class PersonCellTable extends Composite {
 		table.setSelectionModel(selectionModel);
 		Label label = new Label("No data");
 		table.setEmptyTableWidget(label);
-
+		
 		pager.setRangeLimited(true);
 		pager.setDisplay(table);
 

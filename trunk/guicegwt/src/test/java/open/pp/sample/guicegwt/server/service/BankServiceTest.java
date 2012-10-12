@@ -3,8 +3,10 @@
  */
 package open.pp.sample.guicegwt.server.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Assert;
-import open.pp.sample.guicegwt.server.dao.AddressDao;
 import open.pp.sample.guicegwt.server.entity.Address;
 import open.pp.sample.guicegwt.server.entity.Person;
 import open.pp.sample.guicegwt.server.injector.AddressPersistService;
@@ -75,12 +77,9 @@ public class BankServiceTest {
 		Assert.assertNotNull(personId);
 		Address add = new Address();
 		add.setCity("Kolhapur");
-		String accountId = bs.saveAddresss(personId, add);
-		Assert.assertNotNull(accountId);
-		AddressDao ad = injector.getInstance(AddressDao.class);
-		Address a = ad.getAddressById(accountId);
-		Assert.assertNotNull(a);
-		Assert.assertEquals("Kolhapur", a.getCity());
+		List<Address> adds = new ArrayList<Address>();
+		boolean result = bs.saveAddresss(personId, adds);
+		Assert.assertTrue(result);
 	}
 
 }

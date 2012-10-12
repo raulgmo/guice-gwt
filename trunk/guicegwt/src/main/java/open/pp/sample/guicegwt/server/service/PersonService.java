@@ -23,6 +23,12 @@ public class PersonService {
 		return p.getId();
 	}
 
+	public boolean savePerson(Person p) {
+		PersonDao pd = injector.getInstance(PersonDao.class);
+		pd.savePerson(p);
+		return true;
+	}
+
 	public Person getPersonById(String personId) {
 		PersonDao pd = injector.getInstance(PersonDao.class);
 		return pd.getPersonById(personId);
@@ -43,12 +49,16 @@ public class PersonService {
 		return ad.getAllAddresssByPersonId(personId);
 	}
 
-	public String saveAddresss(String personId, Address address) {
-		address.setId(java.util.UUID.randomUUID().toString());
-		address.setPersonId(personId);
+	public boolean saveAddresss(String personId, List<Address> addresses) {
 		AddressDao ad = injector.getInstance(AddressDao.class);
-		ad.saveAddress(address);
-		return address.getId();
+		for (Address address : addresses) {
+			if (address.getId() == null || "".equals(address.getId())) {
+				address.setId(java.util.UUID.randomUUID().toString());
+			}
+			address.setPersonId(personId);
+			ad.saveAddress(address);
+		}
+		return true;
 	}
 
 }
