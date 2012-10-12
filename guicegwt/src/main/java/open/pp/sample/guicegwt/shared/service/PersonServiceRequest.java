@@ -16,6 +16,8 @@ public interface PersonServiceRequest extends RequestContext {
 
 	public Request<String> registerPerson(PersonPx p);
 
+	public Request<Boolean> savePerson(PersonPx p);
+
 	public Request<PersonPx> getPersonById(String personId);
 
 	public Request<AddressPx> getAddressById(String accountId);
@@ -24,6 +26,7 @@ public interface PersonServiceRequest extends RequestContext {
 
 	public Request<List<AddressPx>> getAllAddressesOfAPerson(String personId);
 
-	public Request<String> saveAddresss(String personId, AddressPx address);
+	public Request<Boolean> saveAddresss(String personId,
+			List<AddressPx> address);
 
 }

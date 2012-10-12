@@ -1,2 +1,2 @@
 CREATE SCHEMA Users;
-CREATE SCHEMA Accounts;
+CREATE SCHEMA Address;
