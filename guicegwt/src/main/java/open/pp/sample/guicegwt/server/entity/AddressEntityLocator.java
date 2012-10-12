@@ -14,6 +14,7 @@ public class AddressEntityLocator extends Locator<AddressBase, String> {
 
 	@Inject
 	Injector injector;
+	@Inject
 	@AddressPersistService
 	PersistenceLifeCycleManager manager;
 
