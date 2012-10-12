@@ -4,11 +4,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class TestAccountPersistenceInitilizer {
+public class TestAddressPersistenceInitilizer {
 
 	@Inject
-	public TestAccountPersistenceInitilizer(
-			@AccountPersistService PersistenceLifeCycleManager manager) {
+	public TestAddressPersistenceInitilizer(
+			@AddressPersistService PersistenceLifeCycleManager manager) {
 		manager.startService();
 	}
 

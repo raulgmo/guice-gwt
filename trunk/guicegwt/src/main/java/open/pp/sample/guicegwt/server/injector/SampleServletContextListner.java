@@ -15,7 +15,7 @@ public class SampleServletContextListner extends GuiceServletContextListener {
 	@Override
 	protected Injector getInjector() {
 		return Guice.createInjector(new SampleServletModule(),
-				new UserPersistModule(), new AccountPersistModule());
+				new UserPersistModule(), new AddressPersistModule());
 	}
 
 }

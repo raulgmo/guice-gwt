@@ -4,14 +4,13 @@
 package open.pp.sample.guicegwt.server.service;
 
 import junit.framework.Assert;
-import open.pp.sample.guicegwt.client.InsufficientFundException;
-import open.pp.sample.guicegwt.server.dao.AccountDao;
-import open.pp.sample.guicegwt.server.entity.Account;
+import open.pp.sample.guicegwt.server.dao.AddressDao;
+import open.pp.sample.guicegwt.server.entity.Address;
 import open.pp.sample.guicegwt.server.entity.Person;
-import open.pp.sample.guicegwt.server.injector.AccountPersistService;
+import open.pp.sample.guicegwt.server.injector.AddressPersistService;
 import open.pp.sample.guicegwt.server.injector.GuiceTestRunner;
 import open.pp.sample.guicegwt.server.injector.PersistenceLifeCycleManager;
-import open.pp.sample.guicegwt.server.injector.TestAccountPersistModule;
+import open.pp.sample.guicegwt.server.injector.TestAddressPersistModule;
 import open.pp.sample.guicegwt.server.injector.TestUserPersistModule;
 import open.pp.sample.guicegwt.server.injector.UserPersistService;
 import open.pp.sample.guicegwt.server.injector.WithModules;
@@ -29,13 +28,13 @@ import com.google.inject.Injector;
  * 
  */
 @RunWith(GuiceTestRunner.class)
-@WithModules({ TestAccountPersistModule.class, TestUserPersistModule.class })
+@WithModules({ TestAddressPersistModule.class, TestUserPersistModule.class })
 public class BankServiceTest {
 	@Inject
 	protected Injector injector;
 
 	@Inject
-	@AccountPersistService
+	@AddressPersistService
 	protected PersistenceLifeCycleManager accountManager;
 	@Inject
 	@UserPersistService
@@ -60,53 +59,28 @@ public class BankServiceTest {
 		p.setLname("Patil");
 		p.setEmailId("pandurang@gmail.com");
 		p.setTitle("Mr");
-		BankService bs = injector.getInstance(BankService.class);
+		PersonService bs = injector.getInstance(PersonService.class);
 		bs.registerPerson(p);
 	}
 
 	@Test
-	public void openAccountTest() {
+	public void addAddressTest() {
 		Person p = new Person();
 		p.setFname("Pandurang");
 		p.setLname("Patil");
 		p.setEmailId("pandurang@gmail.com");
 		p.setTitle("Mr");
-		BankService bs = injector.getInstance(BankService.class);
+		PersonService bs = injector.getInstance(PersonService.class);
 		String personId = bs.registerPerson(p);
 		Assert.assertNotNull(personId);
-		String accountId = bs.openAccount(personId, 1000);
+		Address add = new Address();
+		add.setCity("Kolhapur");
+		String accountId = bs.saveAddresss(personId, add);
 		Assert.assertNotNull(accountId);
-		AccountDao ad = injector.getInstance(AccountDao.class);
-		Account a = ad.getAccountById(accountId);
+		AddressDao ad = injector.getInstance(AddressDao.class);
+		Address a = ad.getAddressById(accountId);
 		Assert.assertNotNull(a);
-		Assert.assertEquals(1000.00, a.getBalance());
+		Assert.assertEquals("Kolhapur", a.getCity());
 	}
 
-	@Test
-	public void transferTest() {
-		Person p = new Person();
-		p.setFname("Pandurang");
-		p.setLname("Patil");
-		p.setEmailId("pandurang@gmail.com");
-		p.setTitle("Mr");
-		BankService bs = injector.getInstance(BankService.class);
-		String personId = bs.registerPerson(p);
-		Assert.assertNotNull(personId);
-		String accountId1 = bs.openAccount(personId, 1000);
-		Assert.assertNotNull(accountId1);
-		String accountId2 = bs.openAccount(personId, 2000);
-		Assert.assertNotNull(accountId2);
-		AccountDao ad = injector.getInstance(AccountDao.class);
-		Account a1 = ad.getAccountById(accountId1);
-		Account a2 = ad.getAccountById(accountId2);
-
-		try {
-			bs.transfer(a2, a1, 500.00);
-			Assert.assertEquals(1500.00, a1.getBalance());
-			Assert.assertEquals(1500.00, a2.getBalance());
-		} catch (InsufficientFundException e) {
-			Assert.assertTrue(false);
-			e.printStackTrace();
-		}
-	}
 }

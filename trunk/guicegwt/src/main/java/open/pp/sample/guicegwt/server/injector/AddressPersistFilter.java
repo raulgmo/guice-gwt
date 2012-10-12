@@ -13,12 +13,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class AccountPersistFilter implements Filter {
+public class AddressPersistFilter implements Filter {
 	private final PersistenceLifeCycleManager manager;
 
 	@Inject
-	public AccountPersistFilter(
-			@AccountPersistService PersistenceLifeCycleManager manager) {
+	public AddressPersistFilter(
+			@AddressPersistService PersistenceLifeCycleManager manager) {
 		this.manager = manager;
 	}
 

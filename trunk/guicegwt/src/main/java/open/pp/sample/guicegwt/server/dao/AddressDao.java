@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import open.pp.sample.guicegwt.server.entity.Account;
-import open.pp.sample.guicegwt.server.injector.AccountPersistService;
+import open.pp.sample.guicegwt.server.entity.Address;
+import open.pp.sample.guicegwt.server.injector.AddressPersistService;
 import open.pp.sample.guicegwt.server.injector.PersistenceLifeCycleManager;
 
 import com.google.inject.Inject;
@@ -13,29 +13,29 @@ import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 
 @Singleton
-public class AccountDao {
+public class AddressDao {
 
 	@Inject
-	@AccountPersistService
+	@AddressPersistService
 	PersistenceLifeCycleManager manager;
 
 	@Transactional
-	public boolean saveAccount(Account a) {
+	public boolean saveAddress(Address a) {
 		manager.getEntityManager().persist(a);
 		return true;
 	}
 
 	@Transactional
-	public boolean mergeAccount(Account a) {
+	public boolean mergeAddress(Address a) {
 		manager.getEntityManager().merge(a);
 		return true;
 	}
 
 	@Transactional
-	public List<Account> getAllAccountsByPersonId(String personId) {
-		List<Account> list = null;
-		TypedQuery<Account> qry = manager.getEntityManager().createNamedQuery(
-				"Account.getByPersonId", Account.class);
+	public List<Address> getAllAddresssByPersonId(String personId) {
+		List<Address> list = null;
+		TypedQuery<Address> qry = manager.getEntityManager().createNamedQuery(
+				"Address.getByPersonId", Address.class);
 		qry.setParameter("personId", personId);
 		if (qry != null) {
 			list = qry.getResultList();
@@ -44,13 +44,13 @@ public class AccountDao {
 	}
 
 	@Transactional
-	public Account getAccountById(String id) {
-		return manager.getEntityManager().find(Account.class, id);
+	public Address getAddressById(String id) {
+		return manager.getEntityManager().find(Address.class, id);
 	}
 
 	@Transactional
-	public boolean removeAccount(String id) {
-		Account a = getAccountById(id);
+	public boolean removeAddress(String id) {
+		Address a = getAddressById(id);
 		if (a != null) {
 			manager.getEntityManager().remove(a);
 			return true;

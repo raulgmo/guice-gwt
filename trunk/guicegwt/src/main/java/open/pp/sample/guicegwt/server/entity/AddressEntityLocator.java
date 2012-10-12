@@ -1,6 +1,6 @@
 package open.pp.sample.guicegwt.server.entity;
 
-import open.pp.sample.guicegwt.server.injector.AccountPersistService;
+import open.pp.sample.guicegwt.server.injector.AddressPersistService;
 import open.pp.sample.guicegwt.server.injector.PersistenceLifeCycleManager;
 
 import com.google.inject.Inject;
@@ -10,15 +10,15 @@ import com.google.web.bindery.requestfactory.shared.Locator;
 /**
  * Generic @Locator for objects that extend EntityBase
  */
-public class AccountEntityLocator extends Locator<AccountBase, String> {
+public class AddressEntityLocator extends Locator<AddressBase, String> {
 
 	@Inject
 	Injector injector;
-	@AccountPersistService
+	@AddressPersistService
 	PersistenceLifeCycleManager manager;
 
 	@Override
-	public AccountBase create(Class<? extends AccountBase> clazz) {
+	public AddressBase create(Class<? extends AddressBase> clazz) {
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException e) {
@@ -32,7 +32,7 @@ public class AccountEntityLocator extends Locator<AccountBase, String> {
 	}
 
 	@Override
-	public AccountBase find(Class<? extends AccountBase> clazz, String id) {
+	public AddressBase find(Class<? extends AddressBase> clazz, String id) {
 		return manager.getEntityManager().find(clazz, id);
 	}
 
@@ -40,13 +40,13 @@ public class AccountEntityLocator extends Locator<AccountBase, String> {
 	 * it's never called
 	 */
 	@Override
-	public Class<AccountBase> getDomainType() {
+	public Class<AddressBase> getDomainType() {
 		throw new UnsupportedOperationException();
 		// or return null;
 	}
 
 	@Override
-	public String getId(AccountBase domainObject) {
+	public String getId(AddressBase domainObject) {
 		return domainObject.getId();
 	}
 
@@ -56,7 +56,7 @@ public class AccountEntityLocator extends Locator<AccountBase, String> {
 	}
 
 	@Override
-	public Object getVersion(AccountBase domainObject) {
+	public Object getVersion(AddressBase domainObject) {
 		return domainObject.getVersion();
 	}
 

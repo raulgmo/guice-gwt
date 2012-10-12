@@ -35,9 +35,9 @@
 			<property name="eclipselink.refresh" value="true" />
 		</properties>
 	</persistence-unit>
-	<persistence-unit name="accounts" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="addresses" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>open.pp.sample.guicegwt.server.entity.Account</class>
+		<class>open.pp.sample.guicegwt.server.entity.Address</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

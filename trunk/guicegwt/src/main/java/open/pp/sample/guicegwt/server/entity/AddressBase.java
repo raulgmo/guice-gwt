@@ -1,6 +1,6 @@
 package open.pp.sample.guicegwt.server.entity;
 
-public abstract class AccountBase {
+public abstract class AddressBase {
 
 	abstract public String getId();
 
