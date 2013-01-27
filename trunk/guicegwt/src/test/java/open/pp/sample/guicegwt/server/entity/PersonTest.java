@@ -16,19 +16,23 @@ import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 
 @RunWith(GuiceTestRunner.class)
 @WithModules({ TestUserPersistModule.class })
 public class PersonTest {
 	@Inject
-	protected Injector injector;
+	protected Injector						injector;
 	@Inject
 	@UserPersistService
-	protected PersistenceLifeCycleManager manager;
+	protected PersistenceLifeCycleManager	manager;
 
-	public EntityManager getEntityManager() {
-		return manager.getEntityManager();
+	@Inject
+	Provider<EntityManager>					em;
+
+	private EntityManager getEntityManager() {
+		return em.get();
 	}
 
 	@Before

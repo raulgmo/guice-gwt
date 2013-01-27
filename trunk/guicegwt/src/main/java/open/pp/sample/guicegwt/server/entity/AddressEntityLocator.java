@@ -1,10 +1,10 @@
 package open.pp.sample.guicegwt.server.entity;
 
-import open.pp.sample.guicegwt.server.injector.AddressPersistService;
-import open.pp.sample.guicegwt.server.injector.PersistenceLifeCycleManager;
+import javax.persistence.EntityManager;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.web.bindery.requestfactory.shared.Locator;
 
 /**
@@ -13,10 +13,9 @@ import com.google.web.bindery.requestfactory.shared.Locator;
 public class AddressEntityLocator extends Locator<AddressBase, String> {
 
 	@Inject
-	Injector injector;
+	Injector				injector;
 	@Inject
-	@AddressPersistService
-	PersistenceLifeCycleManager manager;
+	Provider<EntityManager>	em;
 
 	@Override
 	public AddressBase create(Class<? extends AddressBase> clazz) {
@@ -34,7 +33,7 @@ public class AddressEntityLocator extends Locator<AddressBase, String> {
 
 	@Override
 	public AddressBase find(Class<? extends AddressBase> clazz, String id) {
-		return manager.getEntityManager().find(clazz, id);
+		return em.get().find(clazz, id);
 	}
 
 	/**

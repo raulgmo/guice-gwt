@@ -2,8 +2,6 @@ package open.pp.sample.guicegwt.server.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import junit.framework.Assert;
 import open.pp.sample.guicegwt.server.entity.Person;
 import open.pp.sample.guicegwt.server.injector.GuiceTestRunner;
@@ -24,15 +22,11 @@ import com.google.inject.Injector;
 @WithModules({ TestUserPersistModule.class })
 public class PersonDaoTest {
 	@Inject
-	protected Injector injector;
+	protected Injector						injector;
 
 	@Inject
 	@UserPersistService
-	protected PersistenceLifeCycleManager manager;
-
-	public EntityManager getEntityManager() {
-		return manager.getEntityManager();
-	}
+	protected PersistenceLifeCycleManager	manager;
 
 	@Before
 	public void before() {

@@ -2,8 +2,6 @@ package open.pp.sample.guicegwt.server.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import junit.framework.Assert;
 import open.pp.sample.guicegwt.server.entity.Address;
 import open.pp.sample.guicegwt.server.injector.AddressPersistService;
@@ -24,15 +22,11 @@ import com.google.inject.Injector;
 @WithModules({ TestAddressPersistModule.class })
 public class AddressDaoTest {
 	@Inject
-	protected Injector injector;
+	protected Injector						injector;
 
 	@Inject
 	@AddressPersistService
-	protected PersistenceLifeCycleManager manager;
-
-	public EntityManager getEntityManager() {
-		return manager.getEntityManager();
-	}
+	protected PersistenceLifeCycleManager	manager;
 
 	@Before
 	public void before() {

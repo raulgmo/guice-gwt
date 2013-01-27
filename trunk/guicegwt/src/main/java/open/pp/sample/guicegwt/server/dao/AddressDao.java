@@ -2,6 +2,7 @@ package open.pp.sample.guicegwt.server.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import open.pp.sample.guicegwt.server.entity.Address;
@@ -9,6 +10,7 @@ import open.pp.sample.guicegwt.server.injector.AddressPersistService;
 import open.pp.sample.guicegwt.server.injector.PersistenceLifeCycleManager;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 
@@ -17,25 +19,26 @@ public class AddressDao {
 
 	@Inject
 	@AddressPersistService
-	PersistenceLifeCycleManager manager;
+	PersistenceLifeCycleManager	manager;
+	@Inject
+	Provider<EntityManager>		em;
 
 	@Transactional
 	public boolean saveAddress(Address a) {
-		manager.getEntityManager().persist(a);
+		em.get().persist(a);
 		return true;
 	}
 
 	@Transactional
 	public boolean mergeAddress(Address a) {
-		manager.getEntityManager().merge(a);
+		em.get().merge(a);
 		return true;
 	}
 
 	@Transactional
 	public List<Address> getAllAddresssByPersonId(String personId) {
 		List<Address> list = null;
-		TypedQuery<Address> qry = manager.getEntityManager().createNamedQuery(
-				"Address.getByPersonId", Address.class);
+		TypedQuery<Address> qry = em.get().createNamedQuery("Address.getByPersonId", Address.class);
 		qry.setParameter("personId", personId);
 		if (qry != null) {
 			list = qry.getResultList();
@@ -45,14 +48,14 @@ public class AddressDao {
 
 	@Transactional
 	public Address getAddressById(String id) {
-		return manager.getEntityManager().find(Address.class, id);
+		return em.get().find(Address.class, id);
 	}
 
 	@Transactional
 	public boolean removeAddress(String id) {
 		Address a = getAddressById(id);
 		if (a != null) {
-			manager.getEntityManager().remove(a);
+			em.get().remove(a);
 			return true;
 		}
 		return false;
