@@ -1,27 +1,20 @@
 package open.pp.sample.guicegwt.server.injector;
 
-import javax.persistence.EntityManager;
-
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.UnitOfWork;
 
 @Singleton
-public class UserPersistenceLifeCycleManager implements
-		PersistenceLifeCycleManager {
+public class UserPersistenceLifeCycleManager implements PersistenceLifeCycleManager {
 
-	private final UnitOfWork unitOfWork;
-	private final PersistService persistService;
-	private final Provider<EntityManager> entityManager;
+	private final UnitOfWork		unitOfWork;
+	private final PersistService	persistService;
 
 	@Inject
-	public UserPersistenceLifeCycleManager(UnitOfWork unitOfWork,
-			PersistService persistService, Provider<EntityManager> entityManager) {
+	public UserPersistenceLifeCycleManager(UnitOfWork unitOfWork, PersistService persistService) {
 		this.unitOfWork = unitOfWork;
 		this.persistService = persistService;
-		this.entityManager = entityManager;
 	}
 
 	public void startService() {
@@ -40,7 +33,4 @@ public class UserPersistenceLifeCycleManager implements
 		this.unitOfWork.end();
 	}
 
-	public EntityManager getEntityManager() {
-		return entityManager.get();
-	}
 }

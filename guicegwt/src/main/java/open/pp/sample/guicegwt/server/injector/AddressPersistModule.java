@@ -4,6 +4,7 @@
 package open.pp.sample.guicegwt.server.injector;
 
 import open.pp.sample.guicegwt.server.dao.AddressDao;
+import open.pp.sample.guicegwt.server.entity.AddressEntityLocator;
 
 import com.google.inject.PrivateModule;
 import com.google.inject.persist.jpa.JpaPersistModule;
@@ -16,13 +17,12 @@ public class AddressPersistModule extends PrivateModule {
 	@Override
 	protected void configure() {
 		install(new JpaPersistModule("addresses"));
-		bind(PersistenceLifeCycleManager.class).annotatedWith(
-				AddressPersistService.class).to(
-				AddressPersistenceLifeCycleManager.class);
-		expose(PersistenceLifeCycleManager.class).annotatedWith(
-				AddressPersistService.class);
+		bind(PersistenceLifeCycleManager.class).annotatedWith(AddressPersistService.class).to(AddressPersistenceLifeCycleManager.class);
+		expose(PersistenceLifeCycleManager.class).annotatedWith(AddressPersistService.class);
 		bind(AddressDao.class).asEagerSingleton();
 		expose(AddressDao.class);
+		bind(AddressEntityLocator.class).asEagerSingleton();
+		expose(AddressEntityLocator.class);
 	}
 
 }
